@@ -24,14 +24,22 @@ class Advent
       rps2(@content)
     end
 
+    def advent3a
+      packs1(@content)
+    end
+
 
   end
 
 def open_file(path)
-  file_path = File.join(File.dirname(__FILE__), path)
-  file = File.open(file_path)
-  file_data = file.readlines.map(&:chomp)
-  file_data
+  begin
+    file_path = File.join(File.dirname(__FILE__), path)
+    file = File.open(file_path)
+    file_data = file.readlines.map(&:chomp)
+    file_data
+  ensure
+    file.close
+  end
 end
 
 def unit_totals(data)
@@ -98,5 +106,50 @@ def rps2(data)
     score += rules[elf][player]
   end
   score
+end
+
+def packs1(data)
+  chart = build_chart()
+  score = 0
+  data.each do |line|
+    range = line.size/2
+    pouch1 = line[0..range-1]
+    pouch2 = line[range..]
+    item = pack_value(pouch1, pouch2)
+    score += chart[item]
+  end
+  score
+end
+
+def pack_value(set1, set2)
+  i = 0
+  character = ""
+  found = false
+  while !found do
+    if set2.include?(set1[i])
+      character = set1[i]
+      found = true
+    end
+    i += 1
+  end
+  character
+end
+
+def build_chart()
+  table = Hash.new
+  i = 1
+  lcs = "a"
+  ucs = "A"
+  while i < 27 do
+    table.store(lcs, i)
+    i += 1
+    lcs = lcs.next
+  end
+  while i < 53 do
+    table.store(ucs, i)
+    i += 1
+    ucs = ucs.next
+  end
+  table
 end
   
