@@ -29,4 +29,9 @@ class AdventTest < Minitest::Test
     advent = Advent.new('test_input_3')
     assert_equal advent.advent3a, 7824
   end
+
+  def test_advent_3b
+    advent = Advent.new('test_input_3')
+    assert_equal advent.advent3b, 2798
+  end
 end
