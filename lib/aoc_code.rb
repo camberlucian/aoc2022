@@ -2,50 +2,58 @@
 
 # The coolest program
 class Advent
-    attr_reader :content
-    def initialize(path)
-      @content = open_file(path)
-    end
-
-    def advent1a
-      unit_totals(@content).max
-    end
-
-    def advent1b
-      totals = unit_totals(@content)
-      top_total(totals, 3)
-    end
-
-    def advent2a
-      rps(@content)
-    end
-
-    def advent2b
-      rps2(@content)
-    end
-
-    def advent3a
-      packs1(@content)
-    end
-
-    def advent3b
-      packs2(@content)
-    end
-
-    def advent3b
-      packs2(@content)
-    end
-
-    def advent4a
-      pairs1(@content)
-    end
-
-    def advent4b
-      pairs2(@content)
-    end
-
-
+  attr_reader :content
+  def initialize(path)
+    @content = open_file(path)
   end
+
+  def advent1a
+    unit_totals(@content).max
+  end
+
+  def advent1b
+    totals = unit_totals(@content)
+    top_total(totals, 3)
+  end
+
+  def advent2a
+    rps(@content)
+  end
+
+  def advent2b
+    rps2(@content)
+  end
+
+  def advent3a
+    packs1(@content)
+  end
+
+  def advent3b
+    packs2(@content)
+  end
+
+  def advent3b
+    packs2(@content)
+  end
+
+  def advent4a
+    pairs1(@content)
+  end
+
+  def advent4b
+    pairs2(@content)
+  end
+
+  def advent5a
+    crates1(@content)
+  end
+end
+
+class String
+  def is_integer?
+    self.to_i.to_s == self
+  end
+end
 
 def open_file(path)
   begin
@@ -181,6 +189,65 @@ def pairs2(data)
   score
 end
 
+def crates1(data)
+  crate_set = build_crate_set(data)
+  moveset = get_moveset(data)
+  puts("MOVESET")
+  puts(moveset.inspect)
+  puts("^^^^^")
+end
+
+def get_moveset(data)
+  moves = []
+  split_index = data.find_index("")+1
+  move_data = data[split_index..]
+  move_data.each do |line|
+    strings = line.split(" ")
+    move = []
+    strings.each do |string|
+      if string.is_integer?
+        move << string.to_i
+      end
+    end
+    moves << move
+  end
+  moves
+end
+
+def build_crate_set(data)
+  lines = []
+  crates = []
+  data.each do |line|
+    if line[0..3].include?("1")
+      break
+    else
+      lines << line
+    end
+  end
+  lines.each do |line|
+    crate = string_chomp(line)
+    crates << crate 
+  end
+  crates
+end
+
+def string_chomp(line)
+  layer = []
+  while line.size > 2 do
+    substring = line[0..2]
+    if substring.blank?
+      layer << "%"
+    else
+      layer << substring.tr("[]", "")
+    end
+    line = line[4..]
+    if line == nil
+      break
+    end
+  end
+  layer
+end
+
 def parse_pairs(data)
   pairs = []
   data.each do |line|
@@ -250,4 +317,3 @@ def build_chart()
   end
   table
 end
-  
