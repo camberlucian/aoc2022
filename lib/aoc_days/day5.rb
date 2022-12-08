@@ -1,3 +1,9 @@
+class String
+    def is_integer?
+      self.to_i.to_s == self
+    end
+end
+
 def crates1(data)
     crate_set = build_crate_set(data).reverse
     moveset = get_moveset(data)

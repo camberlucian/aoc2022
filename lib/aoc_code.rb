@@ -5,6 +5,8 @@ require_relative './aoc_days/day2'
 require_relative './aoc_days/day3'
 require_relative './aoc_days/day4'
 require_relative './aoc_days/day5'
+require_relative './aoc_days/day6'
+
 
 
 
@@ -59,11 +61,13 @@ class Advent
   def advent5b
     crates2(@content)
   end
-end
 
-class String
-  def is_integer?
-    self.to_i.to_s == self
+  def advent6a
+    signal1(@content)
+  end
+
+  def advent6b
+    signal2(@content)
   end
 end
 
