@@ -47,6 +47,10 @@ class Advent
   def advent5a
     crates1(@content)
   end
+
+  def advent5b
+    crates2(@content)
+  end
 end
 
 class String
@@ -190,12 +194,116 @@ def pairs2(data)
 end
 
 def crates1(data)
-  crate_set = build_crate_set(data)
+  crate_set = build_crate_set(data).reverse
   moveset = get_moveset(data)
-  puts("MOVESET")
-  puts(moveset.inspect)
-  puts("^^^^^")
+  sorted_set = sort_crates(crate_set, moveset)
+  answer = get_answer(sorted_set)
+  answer
 end
+
+def crates2(data)
+  crate_set = build_crate_set(data).reverse
+  moveset = get_moveset(data)
+  sorted_set = sort_crates2(crate_set, moveset)
+  answer = get_answer(sorted_set)
+  answer
+end
+
+def get_answer(crates)
+  width = crates[crates.size-1].size
+  i = 0
+  answer = ""
+  while i < width
+    char_index = find_empty_spot(crates, i)-1
+    answer_char = crates[char_index][i]
+    answer = answer + answer_char
+    i += 1
+  end
+  answer
+end
+
+
+def sort_crates(crates, moves)
+  moves.each do |move|
+    target = move[2]-1
+    origin = move[1]-1
+    number = move[0]
+    crates = move_crates(crates, target, origin, number)
+  end
+  crates
+end
+
+def sort_crates2(crates, moves)
+  moves.each do |move|
+    target = move[2]-1
+    origin = move[1]-1
+    number = move[0]
+    crates = move_crates2(crates, target, origin, number)
+  end
+  crates
+end
+
+def move_crates(crates, target, origin, number)
+  i = 0
+  while i < number
+    crates = move_crate(crates, origin, target)
+    i += 1
+  end
+  crates
+end
+
+def move_crates2(crates, target, origin, number)
+  width = crates[crates.size-1].size
+  origin_layer = find_empty_spot(crates, origin)-1
+  payload = []
+  i = 0
+  while i < number
+    crate = crates[origin_layer-i][origin]
+    payload << crate
+    crates[origin_layer-i][origin] = "%"
+    i += 1
+  end
+  payload = payload.reverse
+  target_layer = find_empty_spot(crates, target)
+  payload.each do |crate|
+    if crates[target_layer].nil?
+      crates = crates << Array.new(width, "%")
+    end
+    crates[target_layer][target] = crate
+    target_layer += 1
+  end
+  crates
+end
+
+def move_crate(crates, origin, target)
+  width = crates[crates.size-1].size
+  origin_layer = find_empty_spot(crates, origin)-1
+  crate = crates[origin_layer][origin]
+  crates[origin_layer][origin] = "%"
+  target_layer = find_empty_spot(crates, target)
+  if crates[target_layer].nil?
+    crates = crates << Array.new(width, "%")
+  end
+  crates[target_layer][target] = crate
+  crates
+end
+
+def find_empty_spot(crates, target)
+  crate_layer = nil
+  i = 0
+  while crate_layer == nil
+    if crates[i].nil?
+      crate_layer = i
+    elsif crates[i][target] == "%"
+      crate_layer = i
+    else
+      i += 1
+    end
+  end
+  crate_layer
+end
+
+
 
 def get_moveset(data)
   moves = []
