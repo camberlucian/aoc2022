@@ -6,6 +6,7 @@ require_relative './aoc_days/day3'
 require_relative './aoc_days/day4'
 require_relative './aoc_days/day5'
 require_relative './aoc_days/day6'
+require_relative './aoc_days/day7'
 
 
 
@@ -68,6 +69,10 @@ class Advent
 
   def advent6b
     signal2(@content)
+  end
+
+  def advent7a
+    files1(@content)
   end
 end
 
