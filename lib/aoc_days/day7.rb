@@ -1,12 +1,6 @@
 def files1(data)
     sys = build_system_hash(data)
-    puts("FILES")
-    puts(sys.inspect)
-    puts("^^^^^^^^^^^^^^")
     total, dirs = total_disposable_memory(sys)
-    puts("DIRECTORIES")
-    puts(dirs.inspect)
-    puts("^^^^^^^^^^^^")
     answer = cullable_dirs(dirs)
 end
 
@@ -55,16 +49,12 @@ def process_command(sys, line, current_path)
         key = line.split(" ")[1]
         parent_key = current_path.split("/")[-1]
         folder = Hash.new
-        puts("ADDING NEW DIRECTORY TO CURRENT PATH")
-        puts(current_path)
         sys = put_nested_hash_value(sys, parent_key, key, folder)
         return sys, current_path
     else
         size_and_name = line.split(" ")
         key = size_and_name[1] + ".fl"
         value = size_and_name[0].to_i
-        puts("ADDING FILE IN CURRENT PATH")
-        puts(current_path)
         parent_key = current_path.split("/")[-1]
         sys = put_nested_hash_value(sys, parent_key, key, value)
         return sys, current_path
@@ -74,7 +64,6 @@ end
 def process_cd(sys, line, current_path)
     dir = line[5..]
     if dir == "/"
-        puts("BEGINNING! SHOULD NOT BE HERE MOR THAN ONCE")
         dir = "root"
     end
     if dir == ".."
@@ -85,8 +74,6 @@ def process_cd(sys, line, current_path)
             if current_path == ""
                 sys[dir] = folder
             else
-                puts("NAVIGATING DIRECTORY TO CURRENT PATH")
-                puts(current_path)
                 sys = put_nested_hash_value(sys, current_path[-1], dir, folder)
             end
         end
@@ -117,11 +104,6 @@ def nested_hash_value(obj,key)
 end
 
 def put_nested_hash_value(obj, parent_key, key, value)
-    puts("PUTTING IN NESTED OBJECT")
-    puts(obj.inspect)
-    puts("PARENT KEY - #{parent_key}")
-    puts("KEY - #{key.inspect}")
-    puts("VALUE - #{value.inspect}")
     if obj.respond_to?(:key?) && obj.key?(parent_key)
         obj[parent_key][key] = value
     elsif obj.respond_to?(:each)
