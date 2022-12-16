@@ -79,6 +79,10 @@ class Advent
   def advent8a
     trees1(@content)
   end
+
+  def advent8b
+    trees2(@content)
+  end
 end
 
 def open_file(path)
