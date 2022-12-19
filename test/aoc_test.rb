@@ -77,6 +77,11 @@ class AdventTest < Minitest::Test
 
   def test_advent_8b
     advent = Advent.new('test_input_8')
-    assert_equal advent.advent8b, 576
+    assert_equal advent.advent8b, 211680
+  end
+
+  def test_advent_9a
+    advent = Advent.new('test_input_9')
+    assert_equal advent.advent9a, 6495
   end
 end

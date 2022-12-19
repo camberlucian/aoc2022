@@ -8,6 +8,8 @@ require_relative './aoc_days/day5'
 require_relative './aoc_days/day6'
 require_relative './aoc_days/day7'
 require_relative './aoc_days/day8'
+require_relative './aoc_days/day9'
+
 
 
 
@@ -82,6 +84,10 @@ class Advent
 
   def advent8b
     trees2(@content)
+  end
+
+  def advent9a
+    rope1(@content)
   end
 end
 
