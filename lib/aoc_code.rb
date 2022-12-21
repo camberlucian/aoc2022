@@ -89,6 +89,10 @@ class Advent
   def advent9a
     rope1(@content)
   end
+
+  def advent9b
+    rope2(@content)
+  end
 end
 
 def open_file(path)
